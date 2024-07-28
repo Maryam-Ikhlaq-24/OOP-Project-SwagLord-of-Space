@@ -32,10 +32,12 @@ void Player::initSprite()
 				// set the texture to sprite
 	this->sprite.setTexture(this->texture);
 			// resize the sprite
+	this->sprite.scale(0.1f, 0.1f);
 }
 
 Player::Player()
 {
+	this->movementSpeed = 1.f;
 	this->initTexture();
 	this->initSprite();
 }
@@ -44,7 +46,15 @@ Player:: ~Player()
 {
 
 }
-			// Functions
+const sf::Vector2f& Player::getPos() const
+{
+	return this->sprite.getPosition();
+}
+void Player::move(const float dirX, const float dirY)
+{
+	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
+}
+// Functions
 void Player::update()
 {
 }

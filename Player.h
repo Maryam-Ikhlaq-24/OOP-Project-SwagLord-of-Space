@@ -9,8 +9,12 @@ sf::Sprite sprite;
 sf::Texture texture;
 float movementSpeed;
 
+float attackCooldown;
+float attackCooldownMax;
+
 	// Private functions 
-	void initTexture();
+    void initVariables();
+ 	void initTexture();
 	void initSprite();
 public:
 	Player();
@@ -22,6 +26,8 @@ public:
 
 				// Functions
 	void move(const float dirX, const float dirY);
+	const bool canAttack();
+	void updateAttack();
 	void update();
 	void render(sf::RenderTarget& target);
 	

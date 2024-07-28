@@ -1,5 +1,7 @@
 #include "Game.h"
-		// Private Funcs
+
+
+// Private Funcs
 void Game::initwindow()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "SwagLord of Space", sf::Style::Close | sf::Style::Titlebar);
@@ -78,17 +80,29 @@ void Game::updateInput()
 		this->player->move(0.f, -1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		this->player->move(0.f, 1.f);
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->player->canAttack())
 	{
-		this->bullets.push_back(new Bullet(this->textures["BULLET"],this->player->getPos().x, this->player->getPos().y,0.f, 0.f, 0.f));
+		this->bullets.push_back(new Bullet(this->textures["BULLET"],this->player->getPos().x, this->player->getPos().y,0.f, -1.f, 5.f));
 	}
 }
 
 void Game::updateBullets()
 {
+	unsigned counter = 0;
 	for (auto *bullet : this->bullets)
 	{
 		bullet->update();
+		// bullet culling (top of screen)
+		if (bullet->getBounds().top + bullet->getBounds().height < 0.f)
+		{
+			// Delete bullet
+			delete this->bullets.at(counter);
+			this->bullets.erase(this->bullets.begin() + counter);
+			--counter;
+		
+			//std::cout << this->bullets.size() << "\n";
+		}
+		++counter;
 	}
 
 }
@@ -97,6 +111,7 @@ void Game::update()
 {
 	this->updatePollEvents();
 	this->updateInput();
+	this->player->update();
 	this->updateBullets();
 
 }

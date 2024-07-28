@@ -16,6 +16,7 @@ private:
 	Player* player;
 
 	// Private Funcs
+	
 	void initwindow();
 	void initTextures();
 	void initplayer();
